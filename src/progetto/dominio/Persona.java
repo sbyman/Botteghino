@@ -24,29 +24,16 @@ public class Persona {
 	
 	public void inserisciLinkAcquista(TipoLinkAcquista l) {
 		if(l != null && l.getPersona() == this) {
-			ManagerAcquista.inserisci(l);
+			insiemeAcquisti.add(l);
 		}
 	}
 	
 	public void eliminaLinkAcquista(TipoLinkAcquista l) {
 		if(l != null && l.getPersona() == this) {
-			ManagerAcquista.elimina(l);
+			insiemeAcquisti.remove(l);
 		}
 	}
 
-	public void inserisciPerManagerAcquista(ManagerAcquista k) {
-		if(k != null) {
-			insiemeAcquisti.add(k.getLink());
-		}
-		
-	}
-
-	public void eliminaPerManagerAcquista(ManagerAcquista k) {
-		if(k != null) {
-			insiemeAcquisti.remove(k.getLink());
-		}
-	}
-	
 	@SuppressWarnings("unchecked")
 	public Set<TipoLinkAcquista> getLinkAcquista(){
 		return (HashSet<TipoLinkAcquista>) insiemeAcquisti.clone();

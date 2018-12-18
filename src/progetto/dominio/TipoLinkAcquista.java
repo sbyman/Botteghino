@@ -1,45 +1,44 @@
 package dominio;
 
 public class TipoLinkAcquista {
-	private Biglietto biglietto;
-	private Persona persona;
 	private int quantita;
+	private Persona laPersona;
+	private Biglietto ilBiglietto;
 	
-	public TipoLinkAcquista(Persona persona, Biglietto biglietto, int quantita) throws EccezionePrecondizioni {
-		if(persona == null || biglietto == null) {
-			throw new EccezionePrecondizioni("I valori di tipo link acquista devono essere dichiarati");
+	public TipoLinkAcquista(Persona p, Biglietto b, int quantita) throws EccezionePrecondizioni{
+		if(b == null || p == null) {
+			throw new EccezionePrecondizioni("Gli oggetti devono essere inizializzati");
 		} else if (quantita <= 0) {
-			throw new EccezionePrecondizioni("La quantita deve avere un valore positivo");
+			throw new EccezionePrecondizioni("La quantita' deve essere positiva");
 		} else {
-			this.persona = persona;
-			this.biglietto = biglietto;
+			this.laPersona = p;
+			this.ilBiglietto = b;
 			this.quantita = quantita;
 		}
 	}
-	
-	public Persona getPersona() {
-		return persona;
-	}
-	
-	public Biglietto getBiglietto() {
-		return biglietto;
-	}
-	
+
 	public int getQuantita() {
 		return quantita;
+	}
+
+	public Persona getPersona() {
+		return laPersona;
+	}
+
+	public Biglietto getBiglietto() {
+		return ilBiglietto;
 	}
 	
 	public boolean equals(Object o) {
 		if(o != null && getClass().equals(o.getClass())) {
 			TipoLinkAcquista a = (TipoLinkAcquista) o;
-			return a.persona == this.persona && a.biglietto == this.biglietto;
+			return a.laPersona == this.laPersona && a.ilBiglietto == this.ilBiglietto;
 		} else {
 			return false;
 		}
 	}
 	
 	public int hashCode() {
-		return this.persona.hashCode() + this.biglietto.hashCode();
+		return this.laPersona.hashCode() + this.ilBiglietto.hashCode();
 	}
-
 }

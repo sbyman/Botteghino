@@ -1,15 +1,13 @@
 package dominio;
 
-import java.util.HashSet;
-import java.util.Set;
 
 public class Biglietto {
 	private final int numero;
 	private final Tipo tipo;
-	private enum Tipo { INTERO, RIDOTTO }
+	private enum Tipo { INTERO, RIDOTTO };
 	
-	private HashSet<TipoLinkAcquista> insiemeAcquisti = new HashSet<TipoLinkAcquista>();
-	
+	private TipoLinkPossiede linkPossiede;
+		
 	public Biglietto(int numero) {
 		//TODO: Gestire l'assegnazione del tipo in base allo spettatore
 		this.tipo = null;
@@ -20,6 +18,22 @@ public class Biglietto {
 		return numero;
 	}
 	
+	public void inserisciLinkPossiede(TipoLinkPossiede l) throws EccezioneMolteplicita{
+		if(l != null && l.getBiglietto() == this && linkPossiede == null) {
+			ManagerPossiede.inserisci(l);
+		} else {
+			throw new EccezioneMolteplicita("Molteplicita' massima violata");
+		}
+	}
+
+	public void eliminaLinkPossiede(TipoLinkPossiede l) throws EccezioneMolteplicita{
+		if(l != null && l.getBiglietto() == this && linkPossiede != null) {
+			ManagerPossiede.elimina(l);
+		} else {
+			throw new EccezioneMolteplicita("Molteplicita' minima violata");
+		}
+	}
+	
 	public int getCosto() { //Ottiene il costo di uno specifico biglietto
 		switch (this.tipo){
 		case RIDOTTO:
@@ -28,34 +42,16 @@ public class Biglietto {
 			return 13;
 		}
 	}
-	
-	public void inserisciLinkAcquista(TipoLinkAcquista link) {
-		if(link != null && link.getBiglietto() == this) {
-			ManagerAcquista.inserisci(link);
-		}
-	}
-	
-	public void eliminaLinkAcquista(TipoLinkAcquista link) {
-		if(link != null && link.getBiglietto() == this) {
-			ManagerAcquista.elimina(link);
+
+	public void inserisciPerManagerPossiede(ManagerPossiede k) {
+		if(k != null && linkPossiede == null) {
+			linkPossiede = k.getLink();
 		}
 	}
 
-	public void inserisciPerManagerAcquista(ManagerAcquista k) {
-		if(k != null) {
-			insiemeAcquisti.add(k.getLink());
+	public void eliminaPerManagerPossiede(ManagerPossiede k) {
+		if(k != null && linkPossiede != null) {
+			linkPossiede = null;
 		}
 	}
-
-	public void eliminaPerManagerAcquista(ManagerAcquista k) {
-		if(k != null) {
-			insiemeAcquisti.remove(k.getLink());
-		}
-	}
-	
-	@SuppressWarnings("unchecked")
-	public Set<TipoLinkAcquista> getLinkAcquista(){
-		return (HashSet<TipoLinkAcquista>) insiemeAcquisti.clone();
-	}
-	
 }
