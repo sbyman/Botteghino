@@ -1,6 +1,8 @@
 package dominio;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 public class Persona {
@@ -20,6 +22,24 @@ public class Persona {
 
 	public String getCognome() {
 		return cognome;
+	}
+	
+	public int quantiBiglietti() {
+		return insiemeAcquisti.isEmpty() ? 0 : insiemeAcquisti.size();
+	}
+	
+	public HashMap<Integer, Integer> tipoBiglietti() throws EccezionePrecondizioni {
+		if(insiemeAcquisti.isEmpty()) {
+			throw new EccezionePrecondizioni("La persona non ha acquistato alcun biglietto");
+		} else {
+			Iterator<TipoLinkAcquista> it = insiemeAcquisti.iterator();
+			HashMap<Integer, Integer> listaBiglietti = new HashMap<Integer, Integer>();
+			while(it.hasNext()) {
+				Biglietto temp = it.next().getBiglietto();
+				listaBiglietti.put(temp.getNumero(), temp.getCosto());
+			}
+			return listaBiglietti;
+		}
 	}
 	
 	public void inserisciLinkAcquista(TipoLinkAcquista l) {

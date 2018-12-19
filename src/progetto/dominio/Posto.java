@@ -1,6 +1,6 @@
 package dominio;
 
-public class Posto {
+public class Posto { 
 	private final String codice;
 	private Stato stato;
 	private enum Stato { LIBERO, OCCUPATO };

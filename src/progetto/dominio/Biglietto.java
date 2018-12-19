@@ -2,6 +2,7 @@ package dominio;
 
 
 public class Biglietto {
+	private static int totale;
 	private final int numero;
 	private final Tipo tipo;
 	private enum Tipo { INTERO, RIDOTTO };
@@ -12,6 +13,11 @@ public class Biglietto {
 		//TODO: Gestire l'assegnazione del tipo in base allo spettatore
 		this.tipo = null;
 		this.numero = numero;
+		totale++;
+	}
+	
+	public static int getTotale() {
+		return totale;
 	}
 
 	public int getNumero() {

@@ -14,6 +14,22 @@ public class Spettatore extends Persona {
 		return eta;
 	}
 	
+	public Posto getPosto() throws EccezionePrecondizioni {
+		if(linkSiede != null) {
+			return linkSiede.getPosto();
+		} else {
+			throw new EccezionePrecondizioni("Lo spettatore non è stato assegnato a nessun posto.");
+		}
+	}
+	
+	public Biglietto getBiglietto() throws EccezionePrecondizioni {
+		if(linkPossiede != null) {
+			return linkPossiede.getBiglietto();
+		} else {
+			throw new EccezionePrecondizioni("Lo spettatore non possiede un biglietto.");
+		}
+	}
+	
 	public void inserisciLinkPossiede(TipoLinkPossiede l) throws EccezioneMolteplicita{
 		if(l != null && l.getSpettatore() == this && linkPossiede == null) {
 			ManagerPossiede.inserisci(l);
